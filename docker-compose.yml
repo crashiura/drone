@@ -1,0 +1,68 @@
+version: '3.6'
+
+services:
+    webserver-test:
+        image: nginx:latest
+        container_name: webserver2
+        ports:
+            - "9091:80"
+        volumes:
+            - ./:/var/www/html
+            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        networks:
+          - back-test
+
+    php-fpm-test:
+        container_name: php-fpm2
+        build:
+            context: .
+            dockerfile: ./docker/php/Dockerfile
+        volumes:
+            - ./:/var/www/html
+        networks:
+          - back-test
+
+    drone-server-test:
+        image: drone/drone:0.8
+        ports:
+            - 8086:8000
+            - 9011:9000
+        volumes:
+            - drone-server-data:/var/lib/drone/
+            - ./drone.pem:/etc/bitbucket/key.pem
+        restart: always
+        environment:
+            - DRONE_OPEN=true
+            - DRONE_HOST=http://localhost:8086
+            - DRONE_GITHUB=true
+            - DRONE_GITHUB_CLIENT=b404e12a6d552e4b9ffb
+            - DRONE_GITHUB_SECRET=5b0488c4d25aa8ac1ec4cfd4b6a87b36443b9491
+            - DRONE_SECRET=123456
+        networks:
+            - back-test
+
+    drone-agent-test:
+        image: drone/agent:0.8
+        command: agent
+        restart: always
+        depends_on:
+            - drone-server-test
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - DRONE_SERVER=drone-server:9011
+            - DRONE_SECRET=123456
+        networks:
+            - back-test
+
+volumes:
+  drone-server-data:
+        driver: local
+
+networks:
+  back-test:
+    driver: bridge
+    ipam:
+         driver: default
+         config:
+            - subnet: 173.17.0.0/24
