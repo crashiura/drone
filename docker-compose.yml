@@ -25,7 +25,7 @@ services:
     drone-server-test:
         image: drone/drone:0.8
         ports:
-            - 8086:8000
+            - 80:8000
             - 9011:9000
         volumes:
             - drone-server-data:/var/lib/drone/
@@ -33,7 +33,7 @@ services:
         restart: always
         environment:
             - DRONE_OPEN=true
-            - DRONE_HOST=http://localhost:8086
+            - DRONE_HOST=http://localhost:80
             - DRONE_GITHUB=true
             - DRONE_GITHUB_CLIENT=b404e12a6d552e4b9ffb
             - DRONE_GITHUB_SECRET=5b0488c4d25aa8ac1ec4cfd4b6a87b36443b9491
