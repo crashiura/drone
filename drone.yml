@@ -1,5 +1,6 @@
 pipeline:
     build:
         image: php:7.1.16-fpm
+        
         commands:
         - php --version
