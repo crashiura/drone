@@ -1,27 +1,6 @@
 version: '3.6'
 
 services:
-    webserver-test:
-        image: nginx:latest
-        container_name: webserver2
-        ports:
-            - "9091:80"
-        volumes:
-            - ./:/var/www/html
-            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-#        networks:
-#          - back-test
-
-    php-fpm-test:
-        container_name: php-fpm2
-        build:
-            context: .
-            dockerfile: ./docker/php/Dockerfile
-        volumes:
-            - ./:/var/www/html
-#        networks:
-#          - back-test
-
     drone-server-test:
         image: drone/drone:0.8
         ports:
