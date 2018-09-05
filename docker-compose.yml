@@ -34,6 +34,7 @@ services:
         environment:
             - DRONE_OPEN=true
             - DRONE_HOST=http://localhost:80
+            - DRONE_ADMIN=crashiura
             - DRONE_GITHUB=true
             - DRONE_GITHUB_CLIENT=b404e12a6d552e4b9ffb
             - DRONE_GITHUB_SECRET=5b0488c4d25aa8ac1ec4cfd4b6a87b36443b9491
