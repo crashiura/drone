@@ -3,4 +3,5 @@ pipeline:
         image: php:7.1.16-fpm
         commands:
         - php --version
-        - php --i
+        - ls
+        - php -l test.php
